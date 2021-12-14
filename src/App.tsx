@@ -6,7 +6,6 @@ function App(): JSX.Element {
   const [LeaderboardList, setLeaderboardList] = useState<leaderboardrowprops[]>(
     []
   );
-  const [refresh, setRefresh] = useState(false);
 
   function getDataAndRerender() {
     fetch("http://localhost:4000/leaderboard")
@@ -19,17 +18,13 @@ function App(): JSX.Element {
 
   useEffect(() => {
     getDataAndRerender();
-  }, [refresh]);
-
-  const handleRefresh = () => {
-    setRefresh(!refresh);
-  };
+  }, []);
 
   return (
     <>
       <h1>Vote for doggos</h1>
       <h2>Leaderboard</h2>
-      <button onClick={handleRefresh}>Refresh leaderboard</button>
+      <button onClick={getDataAndRerender}>Refresh leaderboard</button>
       <div>
         {LeaderboardList.map((row) => (
           <LeaderboardRow key={row.breed} breed={row.breed} votes={row.votes} />

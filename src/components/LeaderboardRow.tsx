@@ -1,10 +1,10 @@
-export interface leaderboardrowprops {
+export interface LeaderboardRowProps {
   breed: string;
   votes: number;
   id?: number;
 }
 
-function LeaderboardRow(props: leaderboardrowprops): JSX.Element {
+function LeaderboardRow(props: LeaderboardRowProps): JSX.Element {
   return (
     <h3>
       {props.breed} - Votes: {props.votes}

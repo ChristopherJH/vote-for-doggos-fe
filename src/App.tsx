@@ -1,11 +1,32 @@
 import LeaderboardRow from "./components/LeaderboardRow";
 import { useEffect, useState } from "react";
-import { leaderboardrowprops } from "./components/LeaderboardRow";
+import { LeaderboardRowProps } from "./components/LeaderboardRow";
+import { VotingSection } from "./components/VotingSectionProps";
+import { getRandomDog } from "./utils/getRandomDog";
+
+export interface DogProps {
+  url: string;
+  breed: string;
+}
 
 function App(): JSX.Element {
-  const [LeaderboardList, setLeaderboardList] = useState<leaderboardrowprops[]>(
+  const [LeaderboardList, setLeaderboardList] = useState<LeaderboardRowProps[]>(
     []
   );
+  const [dog1, setDog1] = useState<DogProps>({
+    url: "",
+    breed: "",
+  });
+  const [dog2, setDog2] = useState<DogProps>({
+    url: "",
+    breed: "",
+  });
+
+  useEffect(() => {
+    getRandomDog(setDog1);
+    getRandomDog(setDog2);
+  }, []);
+  console.log(dog1);
 
   function getDataAndRerender() {
     fetch("http://localhost:4000/leaderboard")
@@ -23,6 +44,7 @@ function App(): JSX.Element {
   return (
     <>
       <h1>Vote for doggos</h1>
+      <VotingSection dog1={dog1} dog2={dog2} />
       <h2>Leaderboard</h2>
       <button onClick={getDataAndRerender}>Refresh leaderboard</button>
       <div>

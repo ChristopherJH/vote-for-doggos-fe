@@ -2,7 +2,6 @@ import LeaderboardRow from "./components/LeaderboardRow";
 import { useEffect, useState } from "react";
 import { LeaderboardRowProps } from "./components/LeaderboardRow";
 import { VotingSection } from "./components/VotingSectionProps";
-import { getRandomDog } from "./utils/getRandomDog";
 
 export interface DogProps {
   url: string;
@@ -26,7 +25,6 @@ function App(): JSX.Element {
     getRandomDog(setDog1);
     getRandomDog(setDog2);
   }, []);
-  console.log(dog1);
 
   function getDataAndRerender() {
     fetch("http://localhost:4000/leaderboard")
@@ -35,6 +33,12 @@ function App(): JSX.Element {
         const fetchedData = jsonBody.data;
         setLeaderboardList(fetchedData);
       });
+  }
+
+  function getRandomDog(setDog: (input: DogProps) => void) {
+    fetch("http://localhost:4000/dogs/random")
+      .then((response) => response.json())
+      .then((dog) => setDog(dog));
   }
 
   useEffect(() => {

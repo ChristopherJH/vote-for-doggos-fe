@@ -6,9 +6,11 @@ export interface LeaderboardRowProps {
 
 function LeaderboardRow(props: LeaderboardRowProps): JSX.Element {
   return (
-    <h3>
-      {props.breed} - Votes: {props.votes}
-    </h3>
+    <tr>
+      <td>Rank</td>
+      <td>{props.breed}</td>
+      <td>{props.votes}</td>
+    </tr>
   );
 }
 

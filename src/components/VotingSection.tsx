@@ -24,26 +24,41 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
   }, [props.baseURL]);
 
   return (
-    <div className="voting-section">
-      <h3>{dog1.breedName}</h3>
-      <img src={dog1.url} alt="Dog 1" />
-      <VoteButton
-        breedName={dog1.breedName}
-        setDog1={setDog1}
-        setDog2={setDog2}
-        baseURL={props.baseURL}
-        play={play}
-      />
-      <h3>{dog2.breedName}</h3>
-      <img src={dog2.url} alt="Dog 2" />
-      <VoteButton
-        breedName={dog2.breedName}
-        setDog1={setDog1}
-        setDog2={setDog2}
-        baseURL={props.baseURL}
-        play={play}
-      />
-    </div>
+    <tr>
+      <td className="text-center">
+        <h3>{dog1.breedName}</h3>
+        <img src={dog1.url} alt="Dog 1" width="400px" height="auto" />
+        <div>
+          <br />
+          <VoteButton
+            breedName={dog1.breedName}
+            setDog1={setDog1}
+            setDog2={setDog2}
+            baseURL={props.baseURL}
+            play={play}
+          />
+        </div>
+      </td>
+      <div className="col col-lg-2">
+        <div className="text-middle">
+          <h2>VS</h2>
+        </div>
+      </div>
+      <td className="text-center">
+        <h3>{dog2.breedName}</h3>
+        <img src={dog2.url} alt="Dog 2" width="400px" height="auto" />
+        <div>
+          <br />
+          <VoteButton
+            breedName={dog2.breedName}
+            setDog1={setDog1}
+            setDog2={setDog2}
+            baseURL={props.baseURL}
+            play={play}
+          />
+        </div>
+      </td>
+    </tr>
   );
 }
 
@@ -71,6 +86,7 @@ function VoteButton(props: VoteButtonProps): JSX.Element {
   }
   return (
     <button
+      className="btn btn-primary"
       onClick={() =>
         handleVote(props.breedName, props.setDog1, props.setDog2, props.baseURL)
       }

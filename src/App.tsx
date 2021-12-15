@@ -1,7 +1,7 @@
 import LeaderboardRow from "./components/LeaderboardRow";
 import { useEffect, useState } from "react";
 import { LeaderboardRowProps } from "./components/LeaderboardRow";
-import { VotingSection } from "./components/VotingSectionProps";
+import { VotingSection } from "./components/VotingSection";
 
 export interface DogProps {
   url: string;

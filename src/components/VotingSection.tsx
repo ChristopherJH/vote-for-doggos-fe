@@ -16,8 +16,8 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
     breedName: "",
   });
   useEffect(() => {
-    getNewDogs(setDog1, setDog2);
-  }, []);
+    getNewDogs(setDog1, setDog2, props.baseURL);
+  }, [props.baseURL]);
 
   return (
     <div className="voting-section">
@@ -51,7 +51,7 @@ async function handleVote(
     breed: breedName,
   });
   console.log(res);
-  getNewDogs(setDog1, setDog2);
+  getNewDogs(setDog1, setDog2, baseURL);
 }
 
 interface VoteButtonProps {
@@ -75,10 +75,11 @@ function VoteButton(props: VoteButtonProps): JSX.Element {
 
 function getNewDogs(
   setDog1: (input: DogProps) => void,
-  setDog2: (input: DogProps) => void
+  setDog2: (input: DogProps) => void,
+  baseURL: string
 ) {
   function getRandomDog(setDog: (input: DogProps) => void) {
-    const res = fetch("http://localhost:4000/dogs/random")
+    const res = fetch(baseURL + "dogs/random")
       .then((response) => response.json())
       .then((dog) => setDog(dog));
     return res;

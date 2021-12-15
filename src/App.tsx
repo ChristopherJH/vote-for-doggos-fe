@@ -1,30 +1,31 @@
 import LeaderboardRow from "./components/LeaderboardRow";
 import { useEffect, useState } from "react";
-import { leaderboardrowprops } from "./components/LeaderboardRow";
+import { LeaderboardRowProps } from "./components/LeaderboardRow";
+import { VotingSection } from "./components/VotingSectionProps";
+
+export interface DogProps {
+  url: string;
+  breedName: string;
+}
 
 function App(): JSX.Element {
-  const [LeaderboardList, setLeaderboardList] = useState<leaderboardrowprops[]>(
+  const [LeaderboardList, setLeaderboardList] = useState<LeaderboardRowProps[]>(
     []
   );
 
-  function getDataAndRerender() {
-    fetch("http://localhost:4000/leaderboard")
-      .then((response) => response.json())
-      .then((jsonBody) => {
-        const fetchedData = jsonBody.data;
-        setLeaderboardList(fetchedData);
-      });
-  }
-
   useEffect(() => {
-    getDataAndRerender();
+    getDataAndRerender(setLeaderboardList);
   }, []);
 
+  console.log(LeaderboardList);
   return (
     <>
       <h1>Vote for doggos</h1>
+      <VotingSection />
       <h2>Leaderboard</h2>
-      <button onClick={getDataAndRerender}>Refresh leaderboard</button>
+      <button onClick={() => getDataAndRerender(setLeaderboardList)}>
+        Refresh leaderboard
+      </button>
       <div>
         {LeaderboardList.map((row) => (
           <LeaderboardRow key={row.breed} breed={row.breed} votes={row.votes} />
@@ -35,3 +36,14 @@ function App(): JSX.Element {
 }
 
 export default App;
+
+function getDataAndRerender(
+  setLeaderboardList: (input: LeaderboardRowProps[]) => void
+) {
+  fetch("http://localhost:4000/leaderboard")
+    .then((response) => response.json())
+    .then((jsonBody) => {
+      const fetchedData = jsonBody.data;
+      setLeaderboardList(fetchedData);
+    });
+}

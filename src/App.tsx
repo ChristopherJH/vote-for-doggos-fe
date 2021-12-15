@@ -5,7 +5,7 @@ import { VotingSection } from "./components/VotingSectionProps";
 
 export interface DogProps {
   url: string;
-  breed: string;
+  breedName: string;
 }
 
 function App(): JSX.Element {
@@ -14,11 +14,11 @@ function App(): JSX.Element {
   );
   const [dog1, setDog1] = useState<DogProps>({
     url: "",
-    breed: "",
+    breedName: "",
   });
   const [dog2, setDog2] = useState<DogProps>({
     url: "",
-    breed: "",
+    breedName: "",
   });
 
   useEffect(() => {

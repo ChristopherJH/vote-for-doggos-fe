@@ -5,11 +5,11 @@ import { VotingSection } from "./components/VotingSection";
 
 export interface DogProps {
   url: string;
-  breedName: string;
+  breed: string;
 }
 
 function App(): JSX.Element {
-  const [LeaderboardList, setLeaderboardList] = useState<LeaderboardRowProps[]>(
+  const [leaderboardList, setLeaderboardList] = useState<LeaderboardRowProps[]>(
     []
   );
   const baseURL = "https://vote-for-doggos.herokuapp.com/";
@@ -18,22 +18,51 @@ function App(): JSX.Element {
     getDataAndRerender(setLeaderboardList, baseURL);
   }, []);
 
-  console.log(LeaderboardList);
   return (
     <>
       <h1>Vote for doggos</h1>
       <VotingSection baseURL={baseURL} />
+      <TopDogs leaderboardList={leaderboardList} />
       <h2>Leaderboard</h2>
       <button onClick={() => getDataAndRerender(setLeaderboardList, baseURL)}>
         Refresh leaderboard
       </button>
       <div>
-        {LeaderboardList.map((row) => (
-          <LeaderboardRow key={row.breed} breed={row.breed} votes={row.votes} />
+        {leaderboardList.map((dog) => (
+          <LeaderboardRow
+            key={dog.breed}
+            breed={dog.breed}
+            votes={dog.votes}
+            url={dog.url}
+          />
         ))}
       </div>
     </>
   );
+}
+
+interface TopDogsProps {
+  leaderboardList: LeaderboardRowProps[];
+}
+
+function TopDogs(props: TopDogsProps): JSX.Element {
+  return (
+    <>
+      <h2>Top dogs</h2>
+      {props.leaderboardList.slice(0, 3).map((topdog) => (
+        <TopDog key={topdog.breed} dog={topdog} />
+      ))}
+    </>
+  );
+}
+
+interface TopDogProps {
+  dog: LeaderboardRowProps;
+}
+
+function TopDog(props: TopDogProps): JSX.Element {
+  const { dog } = props;
+  return <h3>{dog.breed}</h3>;
 }
 
 export default App;

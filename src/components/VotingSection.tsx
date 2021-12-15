@@ -13,11 +13,11 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
   const [play] = useSound(wuphf);
   const [dog1, setDog1] = useState<DogProps>({
     url: "",
-    breedName: "",
+    breed: "",
   });
   const [dog2, setDog2] = useState<DogProps>({
     url: "",
-    breedName: "",
+    breed: "",
   });
   useEffect(() => {
     getNewDogs(setDog1, setDog2, props.baseURL);
@@ -25,19 +25,19 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
 
   return (
     <div className="voting-section">
-      <h3>{dog1.breedName}</h3>
+      <h3>{dog1.breed}</h3>
       <img src={dog1.url} alt="Dog 1" />
       <VoteButton
-        breedName={dog1.breedName}
+        breedName={dog1.breed}
         setDog1={setDog1}
         setDog2={setDog2}
         baseURL={props.baseURL}
         play={play}
       />
-      <h3>{dog2.breedName}</h3>
+      <h3>{dog2.breed}</h3>
       <img src={dog2.url} alt="Dog 2" />
       <VoteButton
-        breedName={dog2.breedName}
+        breedName={dog2.breed}
         setDog1={setDog1}
         setDog2={setDog2}
         baseURL={props.baseURL}

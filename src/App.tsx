@@ -12,18 +12,19 @@ function App(): JSX.Element {
   const [LeaderboardList, setLeaderboardList] = useState<LeaderboardRowProps[]>(
     []
   );
+  const baseURL = "https://vote-for-doggos.herokuapp.com/";
 
   useEffect(() => {
-    getDataAndRerender(setLeaderboardList);
+    getDataAndRerender(setLeaderboardList, baseURL);
   }, []);
 
   console.log(LeaderboardList);
   return (
     <>
       <h1>Vote for doggos</h1>
-      <VotingSection />
+      <VotingSection baseURL={baseURL} />
       <h2>Leaderboard</h2>
-      <button onClick={() => getDataAndRerender(setLeaderboardList)}>
+      <button onClick={() => getDataAndRerender(setLeaderboardList, baseURL)}>
         Refresh leaderboard
       </button>
       <div>
@@ -38,9 +39,10 @@ function App(): JSX.Element {
 export default App;
 
 function getDataAndRerender(
-  setLeaderboardList: (input: LeaderboardRowProps[]) => void
+  setLeaderboardList: (input: LeaderboardRowProps[]) => void,
+  baseURL: string
 ) {
-  fetch("http://localhost:4000/leaderboard")
+  fetch(baseURL + "leaderboard")
     .then((response) => response.json())
     .then((jsonBody) => {
       const fetchedData = jsonBody.data;

@@ -23,7 +23,7 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
     <tr>
       <td className="text-center">
         <h3>{dog1.breedName}</h3>
-        <img src={dog1.url} alt="Dog 1" width="400px" height="auto" />
+        <img src={dog1.url} alt="Dog 1" width="auto" height="400px" />
         <div>
           <br />
           <VoteButton
@@ -41,7 +41,7 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
       </div>
       <td className="text-center">
         <h3>{dog2.breedName}</h3>
-        <img src={dog2.url} alt="Dog 2" width="400px" height="auto" />
+        <img src={dog2.url} alt="Dog 2" width="auto" height="400px" />
         <div>
           <br />
           <VoteButton

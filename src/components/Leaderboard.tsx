@@ -21,7 +21,7 @@ export function Leaderboard(props: LeaderboardProps): JSX.Element {
           votes={dog.votes}
           url={dog.url}
           url_breed={dog.url_breed}
-          rank={index}
+          rank={index + 1}
         />
       ))}
     </>
@@ -31,9 +31,13 @@ export function Leaderboard(props: LeaderboardProps): JSX.Element {
 function LeaderboardRow(props: LeaderboardRowProps): JSX.Element {
   return (
     <tr>
-      <td>{props.rank + 1}</td>
+      {/* <td>{props.rank + 1}</td> */}
+      <td>
+        {props.rank} {props.rank === 1 && "🥇"} {props.rank === 2 && "🥈"}{" "}
+        {props.rank === 3 && "🥉"}
+      </td>
       <td>{props.breed}</td>
-      <td>{props.votes}</td>
+      <td className="text-center">{props.votes}</td>
     </tr>
   );
 }

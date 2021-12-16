@@ -8,13 +8,31 @@ interface TopDogsProps {
 export function TopDogs(props: TopDogsProps): JSX.Element {
   console.log("leaderboard list:", props.leaderboardList);
   return (
-    <>
-      <h2>Top dogs</h2>
-      {props.leaderboardList.length > 0 &&
-        props.leaderboardList
-          .slice(0, 3)
-          .map((topdog) => <TopDog key={topdog.breed} dog={topdog} />)}
-    </>
+    <div className="top-dogs">
+      <h2 className="text-center">Top dogs 🏆</h2>
+      <table className="table">
+        <tbody>
+          <tr>
+            <td className="text-center">
+              <h2>🥇</h2>
+            </td>
+            <td className="text-center">
+              <h2>🥈</h2>
+            </td>
+            <td className="text-center">
+              <h2>🥉</h2>
+            </td>
+          </tr>
+          <tr>
+            {props.leaderboardList.length > 0 &&
+              props.leaderboardList
+                .slice(0, 3)
+                .map((topdog) => <TopDog key={topdog.breed} dog={topdog} />)}
+          </tr>
+        </tbody>
+      </table>
+      <br />
+    </div>
   );
 }
 interface TopDogProps {
@@ -26,23 +44,22 @@ interface DogImageProps {
 }
 function TopDog(props: TopDogProps): JSX.Element {
   const { dog } = props;
-  console.log("top dog unformatted:", dog.url_breed);
   const [img, setImg] = useState("");
   const urlBreed = formatNameToURL(dog.url_breed);
-  console.log(urlBreed);
   useEffect(() => {
     getImgUrl(urlBreed, setImg);
   }, [urlBreed]);
 
   return (
-    <>
+    <td className="text-center">
       <h3>{dog.breed}</h3>
       <img
         src={img}
         alt={dog.breed}
+        className="top-dog-img"
         onClick={() => getImgUrl(urlBreed, setImg)}
       />
-    </>
+    </td>
   );
 }
 

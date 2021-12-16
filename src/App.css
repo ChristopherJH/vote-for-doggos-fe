@@ -1,0 +1,22 @@
+.vs {
+  margin-top: 150px;
+  text-align: center;
+}
+
+.middle {
+  text-align: center;
+}
+
+.top-dog-img {
+  width: 400px;
+  height: 400px;
+  border-radius: 5px;
+}
+
+.top-dogs {
+  margin: 50px auto;
+}
+
+.main h1 {
+  margin: 20px;
+}

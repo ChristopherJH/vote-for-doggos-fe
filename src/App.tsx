@@ -2,10 +2,11 @@ import LeaderboardRow from "./components/LeaderboardRow";
 import { useEffect, useState } from "react";
 import { LeaderboardRowProps } from "./components/LeaderboardRow";
 import { VotingSection } from "./components/VotingSection";
+import "./App.css";
 
 export interface DogProps {
   url: string;
-  breedName: string;
+  breed: string;
 }
 
 function App(): JSX.Element {
@@ -21,7 +22,7 @@ function App(): JSX.Element {
   console.log(LeaderboardList);
   return (
     <>
-      <h1>Vote for doggos</h1>
+      <nav className="navbar navbar-dark bg-light">Vote for doggos</nav>
       <table className="table">
         <tbody>
           <VotingSection baseURL={baseURL} />
@@ -55,6 +56,7 @@ function App(): JSX.Element {
                     key={row.breed}
                     breed={row.breed}
                     votes={row.votes}
+                    index={LeaderboardList.indexOf(row) + 1}
                   />
                 ))}
               </tbody>

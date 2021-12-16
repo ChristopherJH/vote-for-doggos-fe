@@ -5,20 +5,21 @@ import { VotingSection } from "./components/VotingSection";
 
 export interface DogProps {
   url: string;
-  breedName: string;
+  breed: string;
+  unformattedBreed: string;
 }
 
 function App(): JSX.Element {
-  const [LeaderboardList, setLeaderboardList] = useState<LeaderboardRowProps[]>(
+  const [leaderboardList, setLeaderboardList] = useState<LeaderboardRowProps[]>(
     []
   );
-  const baseURL = "https://vote-for-doggos.herokuapp.com/";
+  const baseURL = "http://localhost:4000/";
+  //const baseURL = "https://vote-for-doggos.herokuapp.com/";
 
   useEffect(() => {
     getDataAndRerender(setLeaderboardList, baseURL);
   }, []);
 
-  console.log(LeaderboardList);
   return (
     <>
       <h1>Vote for doggos</h1>
@@ -28,6 +29,7 @@ function App(): JSX.Element {
         </tbody>
       </table>
       <div className="container">
+        <TopDogs leaderboardList={leaderboardList} />
         <div className="row">
           <div className="col"></div>
           <div className="col-6">
@@ -50,11 +52,12 @@ function App(): JSX.Element {
                 </tr>
               </thead>
               <tbody>
-                {LeaderboardList.map((row) => (
+                {leaderboardList.map((dog) => (
                   <LeaderboardRow
-                    key={row.breed}
-                    breed={row.breed}
-                    votes={row.votes}
+                    key={dog.breed}
+                    breed={dog.breed}
+                    votes={dog.votes}
+                    url={dog.url}
                   />
                 ))}
               </tbody>
@@ -65,6 +68,30 @@ function App(): JSX.Element {
       </div>
     </>
   );
+}
+
+interface TopDogsProps {
+  leaderboardList: LeaderboardRowProps[];
+}
+
+function TopDogs(props: TopDogsProps): JSX.Element {
+  return (
+    <>
+      <h2>Top dogs</h2>
+      {props.leaderboardList.slice(0, 3).map((topdog) => (
+        <TopDog key={topdog.breed} dog={topdog} />
+      ))}
+    </>
+  );
+}
+
+interface TopDogProps {
+  dog: LeaderboardRowProps;
+}
+
+function TopDog(props: TopDogProps): JSX.Element {
+  const { dog } = props;
+  return <h3>{dog.breed}</h3>;
 }
 
 export default App;

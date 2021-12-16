@@ -2,6 +2,7 @@ export interface LeaderboardRowProps {
   breed: string;
   votes: number;
   id?: number;
+  url: string;
 }
 
 function LeaderboardRow(props: LeaderboardRowProps): JSX.Element {

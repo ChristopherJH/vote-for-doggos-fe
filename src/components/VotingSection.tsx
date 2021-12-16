@@ -13,11 +13,13 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
   const [play] = useSound(wuphf);
   const [dog1, setDog1] = useState<DogProps>({
     url: "",
-    breedName: "",
+    breed: "",
+    unformattedBreed: "",
   });
   const [dog2, setDog2] = useState<DogProps>({
     url: "",
-    breedName: "",
+    breed: "",
+    unformattedBreed: "",
   });
   useEffect(() => {
     getNewDogs(setDog1, setDog2, props.baseURL);
@@ -26,12 +28,12 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
   return (
     <tr>
       <td className="text-center">
-        <h3>{dog1.breedName}</h3>
+        <h3>{dog1.breed}</h3>
         <img src={dog1.url} alt="Dog 1" width="auto" height="400px" />
         <div>
           <br />
           <VoteButton
-            breedName={dog1.breedName}
+            breed={dog1.breed}
             setDog1={setDog1}
             setDog2={setDog2}
             baseURL={props.baseURL}
@@ -45,12 +47,12 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
         </div>
       </div>
       <td className="text-center">
-        <h3>{dog2.breedName}</h3>
+        <h3>{dog2.breed}</h3>
         <img src={dog2.url} alt="Dog 2" width="auto" height="400px" />
         <div>
           <br />
           <VoteButton
-            breedName={dog2.breedName}
+            breed={dog2.breed}
             setDog1={setDog1}
             setDog2={setDog2}
             baseURL={props.baseURL}
@@ -63,7 +65,7 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
 }
 
 interface VoteButtonProps {
-  breedName: string;
+  breed: string;
   setDog1: (input: DogProps) => void;
   setDog2: (input: DogProps) => void;
   baseURL: string;
@@ -72,13 +74,13 @@ interface VoteButtonProps {
 
 function VoteButton(props: VoteButtonProps): JSX.Element {
   async function handleVote(
-    breedName: string,
+    breed: string,
     setDog1: (input: DogProps) => void,
     setDog2: (input: DogProps) => void,
     baseURL: string
   ) {
     const res = await axios.put(baseURL + "dogs/addvote", {
-      breed: breedName,
+      breed: breed,
     });
     console.log(res);
     getNewDogs(setDog1, setDog2, baseURL);
@@ -88,7 +90,7 @@ function VoteButton(props: VoteButtonProps): JSX.Element {
     <button
       className="btn btn-primary"
       onClick={() =>
-        handleVote(props.breedName, props.setDog1, props.setDog2, props.baseURL)
+        handleVote(props.breed, props.setDog1, props.setDog2, props.baseURL)
       }
     >
       Vote
@@ -105,6 +107,7 @@ function getNewDogs(
     const res = fetch(baseURL + "dogs/random")
       .then((response) => response.json())
       .then((dog) => setDog(dog));
+    console.log(res);
     return res;
   }
   getRandomDog(setDog1);

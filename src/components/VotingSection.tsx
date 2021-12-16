@@ -30,7 +30,7 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
     <tr>
       <td className="text-center">
         <h3>{dog1.breed}</h3>
-        <img src={dog1.url} alt="Dog 1" width="auto" height="400px" />
+        <img src={dog1.url} alt="Dog 1" width="400px" height="400px" />
         <div>
           <br />
           <VoteButton
@@ -52,7 +52,7 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
       </div>
       <td className="text-center">
         <h3>{dog2.breed}</h3>
-        <img src={dog2.url} alt="Dog 2" width="auto" height="400px" />
+        <img src={dog2.url} alt="Dog 2" width="400px" height="400px" />
         <div>
           <br />
           <VoteButton
@@ -95,7 +95,7 @@ function VoteButton(props: VoteButtonProps): JSX.Element {
   }
   return (
     <button
-      className="btn btn-primary"
+      className="btn btn-primary btn-lg"
       onClick={() =>
         handleVote(props.breed, props.setDog1, props.setDog2, props.baseURL)
       }

@@ -4,6 +4,7 @@ import { LeaderboardRowProps } from "./components/Leaderboard";
 import { VotingSection } from "./components/VotingSection";
 import { TopDogs } from "./components/TopDogs";
 import { getDogData } from "./utils/getDogData";
+import "./App.css";
 
 export interface DogProps {
   url: string;
@@ -24,7 +25,7 @@ function App(): JSX.Element {
 
   return (
     <div className="main">
-      <h1>Vote for doggos</h1>
+      <h1 className="text-center">Vote for doggos</h1>
       <table className="table">
         <tbody>
           <VotingSection baseURL={baseURL} />
@@ -50,7 +51,9 @@ function App(): JSX.Element {
                 <tr>
                   <th scope="col">Rank</th>
                   <th scope="col">Breed</th>
-                  <th scope="col">Votes</th>
+                  <th scope="col" className="text-center">
+                    Votes
+                  </th>
                 </tr>
               </thead>
               <tbody>

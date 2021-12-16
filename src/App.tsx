@@ -1,7 +1,9 @@
-import LeaderboardRow from "./components/LeaderboardRow";
+import { Leaderboard } from "./components/Leaderboard";
 import { useEffect, useState } from "react";
-import { LeaderboardRowProps } from "./components/LeaderboardRow";
+import { LeaderboardRowProps } from "./components/Leaderboard";
 import { VotingSection } from "./components/VotingSection";
+import { TopDogs } from "./components/TopDogs";
+import { getDogData } from "./utils/getDogData";
 
 export interface DogProps {
   url: string;
@@ -17,7 +19,7 @@ function App(): JSX.Element {
   const baseURL = "https://vote-for-doggos.herokuapp.com/";
 
   useEffect(() => {
-    getDataAndRerender(setLeaderboardList, baseURL);
+    getDogData(setLeaderboardList, baseURL);
   }, []);
 
   return (
@@ -37,7 +39,7 @@ function App(): JSX.Element {
               <h2>Leaderboard</h2>
               <button
                 className="btn btn-primary"
-                onClick={() => getDataAndRerender(setLeaderboardList, baseURL)}
+                onClick={() => getDogData(setLeaderboardList, baseURL)}
               >
                 🔄
               </button>
@@ -52,15 +54,7 @@ function App(): JSX.Element {
                 </tr>
               </thead>
               <tbody>
-                {leaderboardList.map((dog) => (
-                  <LeaderboardRow
-                    key={dog.breed}
-                    breed={dog.breed}
-                    votes={dog.votes}
-                    url={dog.url}
-                    url_breed={dog.url_breed}
-                  />
-                ))}
+                <Leaderboard leaderboardList={leaderboardList} />
               </tbody>
             </table>
           </div>
@@ -71,77 +65,4 @@ function App(): JSX.Element {
   );
 }
 
-interface TopDogsProps {
-  leaderboardList: LeaderboardRowProps[];
-}
-
-function TopDogs(props: TopDogsProps): JSX.Element {
-  console.log("leaderboard list:", props.leaderboardList);
-  return (
-    <>
-      <h2>Top dogs</h2>
-      {props.leaderboardList.length > 0 &&
-        props.leaderboardList
-          .slice(0, 3)
-          .map((topdog) => <TopDog key={topdog.breed} dog={topdog} />)}
-    </>
-  );
-}
-
-interface TopDogProps {
-  dog: LeaderboardRowProps;
-}
-
-interface DogImageProps {
-  message: string;
-  status: string;
-}
-
-function TopDog(props: TopDogProps): JSX.Element {
-  async function getImgUrl(urlBreed: string) {
-    const response = await fetch(
-      `https://dog.ceo/api/breed/${urlBreed}/images/random`
-    );
-    const jsonBody: DogImageProps = await response.json();
-    setImg(jsonBody.message);
-  }
-
-  const { dog } = props;
-  console.log("top dog unformatted:", dog.url_breed);
-  const [img, setImg] = useState("");
-  const urlBreed = formatNameToURL(dog.url_breed);
-  console.log(urlBreed);
-  useEffect(() => {
-    getImgUrl(urlBreed);
-  }, [urlBreed]);
-
-  return (
-    <>
-      <h3>{dog.breed}</h3>
-      <img src={img} alt={dog.breed} onClick={() => getImgUrl(urlBreed)} />
-    </>
-  );
-}
-
 export default App;
-
-function getDataAndRerender(
-  setLeaderboardList: (input: LeaderboardRowProps[]) => void,
-  baseURL: string
-) {
-  fetch(baseURL + "leaderboard")
-    .then((response) => response.json())
-    .then((jsonBody) => {
-      const fetchedData = jsonBody.data;
-      setLeaderboardList(fetchedData);
-    });
-}
-
-function formatNameToURL(url_breed: string) {
-  if (url_breed.includes("-")) {
-    const splitBreed = url_breed.split("-");
-    const urlBreed = splitBreed[0] + "/" + splitBreed[1];
-    return urlBreed;
-  }
-  return url_breed;
-}

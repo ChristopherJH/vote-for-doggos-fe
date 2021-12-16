@@ -6,7 +6,7 @@ import { VotingSection } from "./components/VotingSection";
 export interface DogProps {
   url: string;
   breed: string;
-  unformattedBreed: string;
+  url_breed: string;
 }
 
 function App(): JSX.Element {
@@ -58,6 +58,7 @@ function App(): JSX.Element {
                     breed={dog.breed}
                     votes={dog.votes}
                     url={dog.url}
+                    url_breed={dog.url_breed}
                   />
                 ))}
               </tbody>
@@ -75,12 +76,14 @@ interface TopDogsProps {
 }
 
 function TopDogs(props: TopDogsProps): JSX.Element {
+  console.log("leaderboard list:", props.leaderboardList);
   return (
     <>
       <h2>Top dogs</h2>
-      {props.leaderboardList.slice(0, 3).map((topdog) => (
-        <TopDog key={topdog.breed} dog={topdog} />
-      ))}
+      {props.leaderboardList.length > 0 &&
+        props.leaderboardList
+          .slice(0, 3)
+          .map((topdog) => <TopDog key={topdog.breed} dog={topdog} />)}
     </>
   );
 }
@@ -89,9 +92,35 @@ interface TopDogProps {
   dog: LeaderboardRowProps;
 }
 
+interface DogImageProps {
+  message: string;
+  status: string;
+}
+
 function TopDog(props: TopDogProps): JSX.Element {
+  async function getImgUrl(urlBreed: string) {
+    const response = await fetch(
+      `https://dog.ceo/api/breed/${urlBreed}/images/random`
+    );
+    const jsonBody: DogImageProps = await response.json();
+    setImg(jsonBody.message);
+  }
+
   const { dog } = props;
-  return <h3>{dog.breed}</h3>;
+  console.log("top dog unformatted:", dog.url_breed);
+  const [img, setImg] = useState("");
+  const urlBreed = formatNameToURL(dog.url_breed);
+  console.log(urlBreed);
+  useEffect(() => {
+    getImgUrl(urlBreed);
+  }, [urlBreed]);
+
+  return (
+    <>
+      <h3>{dog.breed}</h3>
+      <img src={img} alt={dog.breed} onClick={() => getImgUrl(urlBreed)} />
+    </>
+  );
 }
 
 export default App;
@@ -106,4 +135,13 @@ function getDataAndRerender(
       const fetchedData = jsonBody.data;
       setLeaderboardList(fetchedData);
     });
+}
+
+function formatNameToURL(url_breed: string) {
+  if (url_breed.includes("-")) {
+    const splitBreed = url_breed.split("-");
+    const urlBreed = splitBreed[0] + "/" + splitBreed[1];
+    return urlBreed;
+  }
+  return url_breed;
 }

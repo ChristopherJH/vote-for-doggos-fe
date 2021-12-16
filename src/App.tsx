@@ -23,7 +23,7 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <>
+    <div className="main">
       <h1>Vote for doggos</h1>
       <table className="table">
         <tbody>
@@ -61,7 +61,7 @@ function App(): JSX.Element {
           <div className="col"></div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

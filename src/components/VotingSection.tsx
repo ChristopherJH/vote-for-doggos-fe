@@ -10,6 +10,7 @@ export interface VotingSectionProps {
 }
 
 export function VotingSection(props: VotingSectionProps): JSX.Element {
+  const [voteCount, setVoteCount] = useState(0);
   const [play] = useSound(wuphf);
   const [dog1, setDog1] = useState<DogProps>({
     url: "",
@@ -38,13 +39,16 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
             setDog2={setDog2}
             baseURL={props.baseURL}
             play={play}
+            setVoteCount={setVoteCount}
           />
         </div>
       </td>
-      <div className="col col-lg-2">
-        <div className="text-middle">
-          <h2>VS</h2>
-        </div>
+      <div className="col col-lg-15 middle">
+        <h2 className="vs">VS</h2>
+        <button type="button" className="btn btn-primary" disabled>
+          User vote count:{" "}
+          <span className="badge badge-light">{voteCount}</span>
+        </button>
       </div>
       <td className="text-center">
         <h3>{dog2.breed}</h3>
@@ -57,6 +61,7 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
             setDog2={setDog2}
             baseURL={props.baseURL}
             play={play}
+            setVoteCount={setVoteCount}
           />
         </div>
       </td>
@@ -70,6 +75,7 @@ interface VoteButtonProps {
   setDog2: (input: DogProps) => void;
   baseURL: string;
   play: (options?: PlayOptions | undefined) => void;
+  setVoteCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function VoteButton(props: VoteButtonProps): JSX.Element {
@@ -85,6 +91,7 @@ function VoteButton(props: VoteButtonProps): JSX.Element {
     console.log(res);
     getNewDogs(setDog1, setDog2, baseURL);
     props.play();
+    props.setVoteCount((prev) => prev + 1);
   }
   return (
     <button

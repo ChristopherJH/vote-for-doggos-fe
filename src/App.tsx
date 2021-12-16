@@ -6,13 +6,15 @@ import { VotingSection } from "./components/VotingSection";
 export interface DogProps {
   url: string;
   breed: string;
+  unformattedBreed: string;
 }
 
 function App(): JSX.Element {
   const [leaderboardList, setLeaderboardList] = useState<LeaderboardRowProps[]>(
     []
   );
-  const baseURL = "https://vote-for-doggos.herokuapp.com/";
+  const baseURL = "http://localhost:4000/";
+  //const baseURL = "https://vote-for-doggos.herokuapp.com/";
 
   useEffect(() => {
     getDataAndRerender(setLeaderboardList, baseURL);

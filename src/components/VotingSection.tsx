@@ -14,10 +14,12 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
   const [dog1, setDog1] = useState<DogProps>({
     url: "",
     breed: "",
+    unformattedBreed: "",
   });
   const [dog2, setDog2] = useState<DogProps>({
     url: "",
     breed: "",
+    unformattedBreed: "",
   });
   useEffect(() => {
     getNewDogs(setDog1, setDog2, props.baseURL);
@@ -89,6 +91,7 @@ function getNewDogs(
     const res = fetch(baseURL + "dogs/random")
       .then((response) => response.json())
       .then((dog) => setDog(dog));
+    console.log(res);
     return res;
   }
   getRandomDog(setDog1);

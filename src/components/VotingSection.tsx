@@ -14,12 +14,12 @@ export function VotingSection(props: VotingSectionProps): JSX.Element {
   const [dog1, setDog1] = useState<DogProps>({
     url: "",
     breed: "",
-    unformattedBreed: "",
+    url_breed: "",
   });
   const [dog2, setDog2] = useState<DogProps>({
     url: "",
     breed: "",
-    unformattedBreed: "",
+    url_breed: "",
   });
   useEffect(() => {
     getNewDogs(setDog1, setDog2, props.baseURL);
